@@ -15,10 +15,10 @@ app.post('/', async (req, res) => {
 		const osobyUrl = 'https://letsplay.ag3nts.org/data/osoby.json?v=1743591162';
 		const { data: osoby } = await axios.get(osobyUrl);
 
-		// Możesz tu później filtrować osoby według inputu, np. badania
-		const nazwiska = osoby.map(o => o.imie + ' ' + o.nazwisko).join(', ');
+		const badacze = osoby.map(o => o.uczelnia === "UNIJAG"? o : null).filter(o => o !== null).map(o => `${o.imie} ${o.nazwisko}`);
 
-		res.json({ output: nazwiska });
+
+		res.json({ output: badacze });
 	} catch (err) {
 		res.status(500).json({ output: 'Błąd serwera: ' + err.message });
 	}
